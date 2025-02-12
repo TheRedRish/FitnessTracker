@@ -13,31 +13,28 @@ const App = () => {
   const [userProfile, setUserProfile] = useState<UserProfile>({
     name: "",
     age: 0,
-    weight: 0,
+    weight: 65,
     height: 0,
   });
 
-  const [newWeight, setNewWeight] = useState<string>("");
+  const [newWeight, setNewWeight] = useState<number>(userProfile.weight);
+
+  // test function, placeholder
+  function nothing(){
+    var x = 0;
+  }
+
+  function updateWeight(weight:number){
+    setNewWeight(weight);
+  }
 
   // Fetch user profile on app load
   useEffect(() => {
-    axios
+    /* axios
       .get("http://localhost:3001/api/user/1") // Assuming user ID = 1
       .then((response) => setUserProfile(response.data))
-      .catch((error) => console.error("Error fetching user profile:", error));
+      .catch((error) => console.error("Error fetching user profile:", error)); */
   }, []);
-
-  const updateWeight = () => {
-    axios
-      .put("http://localhost:3001/api/user/1", { weight: newWeight })
-      .then((response) =>
-        setUserProfile((prevProfile) => ({
-          ...prevProfile,
-          weight: parseFloat(newWeight),
-        }))
-      )
-      .catch((error) => console.error("Error updating weight:", error));
-  };
 
   return (
     <View style={styles.container}>
@@ -45,17 +42,17 @@ const App = () => {
 
       <Text style={styles.label}>Name: {userProfile.name}</Text>
       <Text style={styles.label}>Age: {userProfile.age}</Text>
-      <Text style={styles.label}>Weight: {userProfile.weight} kg</Text>
+      <Text style={styles.label}>Weight: {newWeight} kg</Text>
       <Text style={styles.label}>Height: {userProfile.height} cm</Text>
 
       <TextInput
         style={styles.input}
         placeholder="Update weight"
-        value={newWeight}
-        onChangeText={setNewWeight}
         keyboardType="numeric"
       />
-      <Button title="Update Weight" onPress={updateWeight} />
+      <Button title="Update Weight" onPress={() => {
+        updateWeight(70);
+      }} />
     </View>
   );
 };
