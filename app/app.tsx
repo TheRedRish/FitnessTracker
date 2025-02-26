@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Button, TextInput, StyleSheet } from "react-native";
-import axios from "axios";
 
 interface UserProfile {
   name: string;
@@ -18,22 +17,17 @@ const App = () => {
   });
 
   const [newWeight, setNewWeight] = useState<number>(userProfile.weight);
+  const [textValue, setTextValue] = useState<string>("");
 
   // test function, placeholder
   function nothing(){
     var x = 0;
   }
 
-  function updateWeight(weight:number){
-    setNewWeight(weight);
-  }
-
   // Fetch user profile on app load
   useEffect(() => {
-    /* axios
-      .get("http://localhost:3001/api/user/1") // Assuming user ID = 1
-      .then((response) => setUserProfile(response.data))
-      .catch((error) => console.error("Error fetching user profile:", error)); */
+    // Fetch data from a file
+    GetUser(69);
   }, []);
 
   return (
@@ -46,12 +40,15 @@ const App = () => {
       <Text style={styles.label}>Height: {userProfile.height} cm</Text>
 
       <TextInput
+        id="weightUpdate"
         style={styles.input}
+        value={textValue}
         placeholder="Update weight"
         keyboardType="numeric"
+        onChangeText={setTextValue}
       />
       <Button title="Update Weight" onPress={() => {
-        updateWeight(70);
+        setNewWeight(Number.parseFloat(textValue));
       }} />
     </View>
   );
@@ -83,4 +80,5 @@ const styles = StyleSheet.create({
   },
 });
 
+export type { UserProfile as MyUserProfile }
 export default App;
